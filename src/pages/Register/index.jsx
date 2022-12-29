@@ -252,7 +252,7 @@ const Register = () => {
                             :
                                 <>
                                     <Box sx={{display: auth ? 'none' : 'flex', mt: 3, width:'100%', justifyContent:'center'}}>
-                                        <Box sx={{display:'flex', justifyContent:'center'}}>
+                                        <Box sx={{mt:10, display:'flex', justifyContent:'center'}}>
                                             <DiscordButton variant="contained" onClick={handleGetAuthDiscord} startIcon={<FaDiscord style={{color:'white'}}/>}>
                                                 <div className={"text-discord"}>CONECTAR COM O DISCORD</div>
                                             </DiscordButton>
@@ -350,9 +350,13 @@ const Register = () => {
                                                                 </FormControl>
                                                             </Box>
 
-                                                            <Box sx={{ mt:2, display:'flex', justifyContent:'space-between'}}>
+                                                            <Box sx={{ mt:2, display:'flex', justifyContent:'center', textAlign:'center'}}>
+                                                                <Typography sx={{fontSize:'12px', fontStyle:'italic', color:'#c9c9c9'}}>Sugestão da sua agenda para data e hora do Campeonato.</Typography> 
+                                                            </Box>
+
+                                                            <Box sx={{ mt:1, display:'flex', justifyContent:'space-between'}}>
                                                                 <FormControl variant="standard" sx={{ width: '70%', maxWidth:'277.19px' }} size="small">
-                                                                    <InputLabel id="checkbox-week-label">Dias da semana</InputLabel>
+                                                                    <InputLabel id="checkbox-week-label">Possíveis dias da semana</InputLabel>
                                                                     <Select
                                                                         error={daysError}
                                                                         labelId="checkbox-week-label"
@@ -467,10 +471,10 @@ const Register = () => {
                                     gap:1
                                 }}
                             >
-                                <Typography sx={{fontSize:'12px', color:'#c9c9c9'}}>
+                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
                                     Sétima Expedição
                                 </Typography>
-                                <img width={32} height={32} src={Setima}/>
+                                <img width={24} height={24} src={Setima}/>
                             </Box>
                             <Box
                                 sx={{
@@ -483,10 +487,10 @@ const Register = () => {
                                 }}
                                 onClick={handleTwitch}
                             >
-                                <Typography sx={{fontSize:'12px', color:'#c9c9c9'}}>
+                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
                                     Twitch.tv/sinehtv
                                 </Typography>
-                                <img width={32} height={32} src={Twitch}/>
+                                <img width={24} height={24} src={Twitch}/>
                             </Box>
                             <Box
                                 sx={{
@@ -497,10 +501,10 @@ const Register = () => {
                                     gap:1
                                 }}
                             >
-                                <Typography sx={{fontSize:'12px', color:'#c9c9c9'}}>
+                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
                                     Espaço Modern
                                 </Typography>
-                                <img width={32} height={32} src={Modern} style={{borderRadius:'10px'}}/>
+                                <img width={24} height={24} src={Modern} style={{borderRadius:'10px'}}/>
                             </Box>
                         </Box>
                     </Container>

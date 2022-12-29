@@ -1,0 +1,27 @@
+
+
+body {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), URL('../../assets/background.png');
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+*, *::before, *::after {
+    box-sizing: initial !important;
+}
+
+.nw {
+    background-image: URL('../../assets//banner.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: rgb(0 0 0 / 0%) 0px 20px 15px -10px, rgb(0 0 0 / 60%) 0px 15px 20px 2px, rgb(0 0 0 / 40%) 0px 5px 25px 4px;
+    /* transform: rotate3d(-10, -74, -2, 35deg); */
+    transform: rotate3d(10, -60, 5, 25deg)
+}
+
+.gold {
+    background-image: URL('moedas.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
