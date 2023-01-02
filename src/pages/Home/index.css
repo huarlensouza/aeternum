@@ -1,14 +1,6 @@
 
 
-body {
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), URL('../../assets/background.png');
-    background-repeat: no-repeat;
-    background-position: top;
-}
 
-*, *::before, *::after {
-    box-sizing: initial !important;
-}
 
 .nw {
     background-image: URL('../../assets//banner.png');

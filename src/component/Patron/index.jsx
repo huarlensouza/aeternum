@@ -9,9 +9,9 @@ import Modern from '../../assets/patron/modern.jpg';
 
 export default ({justifyContent}) => {
     return (
-        <Container maxWidth="sm" sx={{display:'flex', flexDirection:'column', gap:3, justifyContent:justifyContent}}>
+        <Container maxWidth="sm" sx={{padding: 0, display:'flex', flexDirection:'column', gap:3, justifyContent:justifyContent}}>
             <Box sx={{display:'flex', flexDirection:'row', gap:2, justifyContent: 'center'}}>
-                <span className={"text-discord"}>Patrocionadores</span>
+                <span className={"text-discord"}>Patrocinadores</span>
             </Box>
             <Box sx={{display:'flex', flexDirection:'row', gap:3, justifyContent: 'center'}}>
                 <Box
@@ -23,7 +23,7 @@ export default ({justifyContent}) => {
                         gap:1
                     }}
                 >
-                    <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
+                    <Typography sx={{fontSize:'10px', color:'#c9c9c9', textAlign:'center'}}>
                         Sétima Expedição
                     </Typography>
                     <img width={24} height={24} src={Setima}/>
@@ -39,7 +39,7 @@ export default ({justifyContent}) => {
                     }}
                     // onClick={handleTwitch}
                 >
-                    <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
+                    <Typography sx={{fontSize:'10px', color:'#c9c9c9', textAlign:'center'}}>
                         Twitch.tv/sinehtv
                     </Typography>
                     <img width={24} height={24} src={Twitch}/>
@@ -53,7 +53,7 @@ export default ({justifyContent}) => {
                         gap:1
                     }}
                 >
-                    <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
+                    <Typography sx={{fontSize:'10px', color:'#c9c9c9', textAlign:'center'}}>
                         Espaço Modern
                     </Typography>
                     <img width={24} height={24} src={Modern} style={{borderRadius:'10px'}}/>

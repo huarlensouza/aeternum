@@ -18,7 +18,7 @@ export default ({open, handleCloseRule}) => {
             aria-describedby="scroll-dialog-description"
         >
             <DialogTitle id="scroll-dialog-title">Regras e Conduta</DialogTitle>
-            <DialogContent dividers={'papaer'}>
+            <DialogContent dividers={true}>
             <DialogContentText>
                 <>
                     <div>

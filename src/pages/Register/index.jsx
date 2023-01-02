@@ -24,11 +24,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Logo from '../../component/Logo';
-import Setima from '../../assets/patron/setima.png'
-import Twitch from '../../assets/patron/twitch.png'
-import Modern from '../../assets/patron/modern.jpg'
+import Rule from '../../component/Rule';
+import Patron from '../../component/Patron';
 
 import './index.css'
 
@@ -51,17 +51,77 @@ const Register = () => {
 
     const [auth, setAuth] = React.useState(false);
     const [user, setUser] = React.useState([]);
-    const [register, setRegister] = React.useState(false);
-    const [registered, setRegistered] = React.useState(false);
+    const [championship, setChampionship] = React.useState(false);
+    const [enrollment, setEnrollment] = React.useState(false);
     const [complete, setComplete] = React.useState(false);
 
     const [nickname, setNickname] = React.useState('');
     const [nicknameError, setNicknameError] = React.useState(false);
     const [nicknameErrorMsg, setNicknameErrorMsg] = React.useState('');
 
+    const [selectPrimary, setSelectPrimary] = React.useState([
+        'Espada e Escudo',
+        'Rapieira',
+        'Machadinha',
+        'Lança',
+        'Machadão',
+        'Martelo de Guerra',
+        'Espada Grande',
+        'Arco',
+        'Mosquete',
+        'Bacamarte',
+        'Bastão Flamejante',
+        'Manopla de Gelo',
+        'Manopla Imaterial'
+    ]);
+    const [selectFilterPrimary, setSelectFilterPrimary] = React.useState([
+        'Espada e Escudo',
+        'Rapieira',
+        'Machadinha',
+        'Lança',
+        'Machadão',
+        'Martelo de Guerra',
+        'Espada Grande',
+        'Arco',
+        'Mosquete',
+        'Bacamarte',
+        'Bastão Flamejante',
+        'Manopla de Gelo',
+        'Manopla Imaterial'
+    ]);
     const [primary, setPrimary] = React.useState('');
     const [primaryError, setPrimaryError] = React.useState(false);
 
+    const [selectSecondary, setSelectSecondary] = React.useState([
+        'Espada e Escudo',
+        'Rapieira',
+        'Machadinha',
+        'Lança',
+        'Machadão',
+        'Martelo de Guerra',
+        'Espada Grande',
+        'Arco',
+        'Mosquete',
+        'Bacamarte',
+        'Bastão Flamejante',
+        'Manopla de Gelo',
+        'Manopla Imaterial'
+    ]);
+    const [selectFilterSecondary, setSelectFilterSecondary] = React.useState([
+        'Espada e Escudo',
+        'Rapieira',
+        'Machadinha',
+        'Lança',
+        'Machadão',
+        'Martelo de Guerra',
+        'Espada Grande',
+        'Arco',
+        'Mosquete',
+        'Bacamarte',
+        'Bastão Flamejante',
+        'Manopla de Gelo',
+        'Manopla Imaterial'
+    ]);
     const [secondary, setSecondary] = React.useState('')
     const [secondaryError, setSecondaryError] = React.useState(false);
 
@@ -74,22 +134,9 @@ const Register = () => {
     const [registerError, setRegisterError] = React.useState([]);
     const [registerErrorModal, setRegisterErrorModal] = React.useState(false);
     
-    const weapons = [
-        'Espada e Escudo',
-        'Rapieira',
-        'Machadinha',
-        'Lança',
-        'Machadão',
-        'Martelo de Guerra',
-        'Espada Grande',
-        'Arco',
-        'Mosquete',
-        'Bacamarte',
-        'Bastão Flamejante',
-        'Bastão Vital',
-        'Manopla de Gelo',
-        'Manopla Imaterial'
-    ];
+    const [checked, setChecked] = React.useState(false);
+
+    const [rule, setRule] = React.useState(false)
 
     const week = [
         'Domingo',
@@ -112,13 +159,18 @@ const Register = () => {
     ];
 
     useEffect(() => {
+        setSelectFilterPrimary(selectPrimary.filter(x => x != secondary));
+        setSelectFilterSecondary(selectSecondary.filter(x => x != primary));
+    }, [primary, secondary]);
+
+    useEffect(() => {
         (async() => {
             if(searchParams.get('code')) {
                 const response = await api.AuthDiscord(searchParams.get('code'));
                 if(response.data.auth){
                     setUser(response.data);
-                    setRegister(response.data.register);
-                    setRegistered(response.data.registered);
+                    setChampionship(response.data.championship);
+                    setEnrollment(response.data.enrollment);
                     setAuth(true);
                 };
             } else {
@@ -151,14 +203,18 @@ const Register = () => {
     const handleDays = (event) => {
         const { target: { value }, } = event;
         setDaysError(false);
-        setDays(typeof value === 'string' ? value.split(',') : value,);
+        setDays(typeof value == 'string' ? value.split(',') : value,);
+    };
+
+    const handleCheck = (event) => {
+        setChecked(event.target.checked);
     };
 
     const handleSave = async() => {
         const data = {
-            nickname:nickname,
-            id:user.user.id,
-            email:user.user.email,
+            nickname: nickname,
+            id_discord: user.discord.id,
+            email: user.discord.email,
             weapon_primary: primary,
             weapon_secondary: secondary,
             days: days,
@@ -166,7 +222,7 @@ const Register = () => {
             access_token: user.access_token
         };
 
-        if(nickname == '') {
+        if(nickname === '') {
             setNicknameError(true)
             setNicknameErrorMsg('O campo é obrigatório')
         };
@@ -176,35 +232,36 @@ const Register = () => {
             setNicknameErrorMsg('Limite máximo de 20 caracteres')
         };
 
-        if(nickname.length < 5 && nickname != '') {
+        if(nickname.length < 5 && nickname !== '') {
             setNicknameError(true)
             setNicknameErrorMsg('Limite minímo de 5 caracteres')
         };
     
-        if(primary == '') {
+        if(primary === '') {
             setPrimaryError(true)
         };
 
-        if(secondary == '') {
+        if(secondary === '') {
             setSecondaryError(true)
         };
 
-        if(days == '') {
+        if(days === '') {
             setDaysError(true)
         };
 
-        if(hour == '') {
+        if(hour === '') {
             setHourError(true)
         };
 
-        if(primary != '' && secondary != '' && days != '' && hour != '' && nickname != '' && nickname.length > 5 && nickname.length < 20) {
+        if(primary !== '' && secondary !== '' && days !== '' && hour !== '' && nickname !== '' && nickname.length > 5 && nickname.length < 20) {
            const response = await api.setUser(data);
-            if(response.status == 400) {
+           console.log(response)
+            if(response.status === 400) {
                 setRegisterError(response.data.errors);
                 setRegisterErrorModal(true);
             };
 
-            if(response.status == 200) {
+            if(response.status === 200) {
                 if(response.data.register) {
                     setComplete(true);
                 };
@@ -226,6 +283,14 @@ const Register = () => {
         window.open('https://www.twitch.tv/sinehtv')
     };
 
+    const handleRule = () => {
+        setRule(true)
+    }
+
+    const handleCloseRule = () => {
+        setRule(false)
+    }
+
     return (
         <ThemeProvider theme={darkTheme}>
             <Box
@@ -239,16 +304,20 @@ const Register = () => {
                 <Container component="main" maxWidth="xs">
                     <Box
                         sx={{
-                            marginTop: 6,
+                            marginTop: {lg:6, md:6, sm:6, xs:2},
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                         }}
                     >
-                        <Logo width={200} height={250}/>
+                        <Link to="/">
+                            <Logo width={175} height={200} style={{cursor:'pointer'}}/>
+                        </Link>
                         {loading
                             ?
-                                <Box sx={{mt:12}}><CircularProgress color="secondary" /></Box>
+                                <Box sx={{mt:12}}>
+                                    <CircularProgress color="secondary" />
+                                </Box>
                             :
                                 <>
                                     <Box sx={{display: auth ? 'none' : 'flex', mt: 3, width:'100%', justifyContent:'center'}}>
@@ -260,11 +329,14 @@ const Register = () => {
                                     </Box>
                                     {auth &&
                                         //Verificar se inscrições estão abertas
-                                        !register
+                                        !championship
                                             ?
-                                                <Box sx={{mt:12}}>
+                                                <Box sx={{mt:12, textAlign: 'center'}}>
                                                     <Box sx={{fontStyle: 'italic'}}>
                                                         As inscrições foram encerradas
+                                                    </Box>
+                                                    <Box sx={{fontStyle: 'italic'}}>
+                                                        Aguarde o próximo evento para alistar-se
                                                     </Box>
                                                     <Box sx={{mt:5}}>
                                                         <Link to="/">
@@ -274,11 +346,14 @@ const Register = () => {
                                                 </Box>
                                             :
                                         //Verificar se usuário já está cadastrado no campeonato
-                                        registered
+                                        enrollment
                                             ?
-                                                <Box sx={{mt:12}}>
+                                                <Box sx={{mt:12, textAlign: 'center'}}>
                                                     <Box sx={{fontStyle: 'italic'}}>
                                                         O usuário já está cadastrado para o evento.
+                                                    </Box>
+                                                    <Box sx={{fontStyle: 'italic'}}>
+                                                        Acompanhe sua inscrição pelo nosso Discord Oficial
                                                     </Box>
                                                     <Box sx={{mt:5}}>
                                                         <Link to="/">
@@ -288,7 +363,7 @@ const Register = () => {
                                                 </Box>
                                             :
                                                 <>
-                                                    <Box sx={{display: auth && !complete ? 'grid' : 'none', mt: 2, width:'100%'}}>
+                                                    <Box sx={{mt: {lg:8, md:8, sm:8, xs:5}, display: auth && !complete ? 'grid' : 'none', width:'100%'}}>
                                                         <Box >
                                                             <Box sx={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'center'}}>
                                                                 <Avatar
@@ -296,9 +371,10 @@ const Register = () => {
                                                                     src={`https://cdn.discordapp.com/avatars/${user.user?.id}/${user.user?.avatar}`}
                                                                     sx={{ width: 40, height: 40 }}
                                                                 />
-                                                                <Typography color="white">{user.user?.username}</Typography>
+                                                                <Typography color="white">{user.discord?.username}</Typography>
                                                                 <FaDiscord className={"icon-discord"} />
                                                             </Box>
+                                                            
                                                             <Box sx={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'center'}}>
                                                                 <TextField
                                                                     fullWidth
@@ -312,7 +388,7 @@ const Register = () => {
                                                                 />
                                                             </Box>
 
-                                                            <Box sx={{ mt:2, display:'flex', justifyContent:'space-between'}}>
+                                                            <Box sx={{mt:2, display:'flex', justifyContent:'space-between'}}>
                                                                 <FormControl variant="standard" sx={{width:'48%'}} size="small">
                                                                     <InputLabel id="select-primary-label">Arma primária</InputLabel>
                                                                     <Select
@@ -324,7 +400,7 @@ const Register = () => {
                                                                         onChange={handlePrimary}
                                                                     >
                                                                         {
-                                                                            weapons.map((weapon, index) => (
+                                                                            selectFilterPrimary.map((weapon, index) => (
                                                                                 <MenuItem key={index} value={weapon}>{weapon}</MenuItem>
                                                                             ))
                                                                         }
@@ -341,7 +417,7 @@ const Register = () => {
                                                                         onChange={handleSecondary}
                                                                     >
                                                                         {
-                                                                            weapons.map((weapon, index) => (
+                                                                            selectFilterSecondary.map((weapon, index) => (
                                                                             
                                                                                 <MenuItem key={index} value={weapon}>{weapon}</MenuItem>
                                                                             ))
@@ -350,11 +426,11 @@ const Register = () => {
                                                                 </FormControl>
                                                             </Box>
 
-                                                            <Box sx={{ mt:2, display:'flex', justifyContent:'center', textAlign:'center'}}>
+                                                            <Box sx={{mt:2, display:'flex', justifyContent:'center', textAlign:'center'}}>
                                                                 <Typography sx={{fontSize:'12px', fontStyle:'italic', color:'#c9c9c9'}}>Sugestão da sua agenda para data e hora do Campeonato.</Typography> 
                                                             </Box>
 
-                                                            <Box sx={{ mt:1, display:'flex', justifyContent:'space-between'}}>
+                                                            <Box sx={{mt:1, display:'flex', justifyContent:'space-between'}}>
                                                                 <FormControl variant="standard" sx={{ width: '70%', maxWidth:'277.19px' }} size="small">
                                                                     <InputLabel id="checkbox-week-label">Possíveis dias da semana</InputLabel>
                                                                     <Select
@@ -393,7 +469,19 @@ const Register = () => {
                                                                 </FormControl>
                                                             </Box>
 
-                                                            <Box sx={{ mt:3, display:'flex', justifyContent:'space-between'}}>
+                                                            <Box sx={{mt:2, display:'flex', justifyContent:'center', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                                                                <Checkbox
+                                                                    size="small"
+                                                                    checked={checked}
+                                                                    onChange={handleCheck}
+                                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                                />
+                                                                <Typography sx={{fontSize:'12px', fontStyle:'italic', color:'#c9c9c9', textAlign:'justify'}}>
+                                                                    Aceito os termos das <span style={{textDecoration:'underline', cursor:'pointer', color: 'rgb(219, 77, 83)'}} onClick={handleRule}>regras e condutas</span> da Arena Aeternum
+                                                                </Typography> 
+                                                            </Box>
+
+                                                            <Box sx={{mt:3, display:'flex', justifyContent:'space-between'}}>
                                                                 <Button fullWidth className={"alistar"} variant="contained" onClick={handleSave}>ALISTAR-SE</Button>
                                                             </Box>
                                                         </Box>
@@ -457,59 +545,10 @@ const Register = () => {
                         mt: 'auto',
                     }}
                 >
-                    <Container maxWidth="sm" sx={{display:'flex', flexDirection:'column', gap:3}}>
-                        <Box sx={{display:'flex', flexDirection:'row', gap:2, justifyContent: 'center'}}>
-                            <span className={"text-discord"}>Patrocionadores</span>
-                        </Box>
-                        <Box sx={{display:'flex', flexDirection:'row', gap:3, justifyContent: 'center'}}>
-                            <Box
-                                sx={{
-                                    display:'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap:1
-                                }}
-                            >
-                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
-                                    Sétima Expedição
-                                </Typography>
-                                <img width={24} height={24} src={Setima}/>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display:'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap:1,
-                                    cursor:'pointer'
-                                }}
-                                onClick={handleTwitch}
-                            >
-                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
-                                    Twitch.tv/sinehtv
-                                </Typography>
-                                <img width={24} height={24} src={Twitch}/>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display:'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap:1
-                                }}
-                            >
-                                <Typography sx={{fontSize:'10px', color:'#c9c9c9'}}>
-                                    Espaço Modern
-                                </Typography>
-                                <img width={24} height={24} src={Modern} style={{borderRadius:'10px'}}/>
-                            </Box>
-                        </Box>
-                    </Container>
+                    <Patron/>
                 </Box>
             </Box>
+            <Rule open={rule} handleCloseRule={handleCloseRule}/>
         </ThemeProvider>
     );
 };

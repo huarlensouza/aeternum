@@ -6,7 +6,7 @@ const api = axios.create({
 
 export default {
     AuthDiscord: async(code) => {
-        return api.post('/auth/discord/sign', {
+        return api.post('/auth/discord', {
             data:{code:code}
         })
         .then(response => {

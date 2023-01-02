@@ -82,11 +82,8 @@ const Home = () => {
     }
 
     const handleCloseRule = () => {
-        console.log('aqi')
         setRule(false)
     }
-
-    console.log('rule', rule)
 
     return (
         <ThemeProvider theme={theme}>
@@ -142,7 +139,7 @@ const Home = () => {
                             <Box sx={{fontWeight:'bold', fontSize:'32px'}}>CAMPEONATOS ORGANIZADOS</Box>
                             <Box sx={{fontWeight:'bold', fontSize:'32px'}}>& COMPETITIVOS</Box>
                             <Box sx={{maxWidth:'500px'}}>
-                            Todos os registros e estatísticas do Campeonato serão salvos e compartilhados com a comunidade, assim iremos manter um ranqueamento entre os competidores e posteriormente criando o "Championship Invitation", uma liga mais competitiva com mais recompensas e com os melhores jogadores selecionados de acordo com suas estatísticas dos campeonatos.
+                                Todos os registros e estatísticas do Campeonato serão salvos e compartilhados com a comunidade, assim iremos manter um ranqueamento entre os competidores e posteriormente criando o "Championship Invitation", uma liga mais competitiva com mais recompensas e com os melhores jogadores selecionados de acordo com suas estatísticas dos campeonatos.
                             </Box>
                         </Box>
                         <Box sx={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
