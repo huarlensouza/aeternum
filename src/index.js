@@ -5,6 +5,7 @@ import App from './App';
 import './App.css';
 
 if (process.env.NODE_ENV === 'production') {
+    console.log('Produção')
     disableReactDevTools();
 }
    
