@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://177.209.229.53:4001/api'
+    baseURL: `${process.env.REACT_APP_URL}/api`
 });
 
 export default {
@@ -26,7 +26,7 @@ export default {
     setUser: async(data) =>{
         var config = {
             method: 'post',
-            url: 'http://177.209.229.53:4001/api/formulario',
+            url: `${process.env.REACT_APP_URL}/api/formulario`,
             headers: { 
                 'Content-Type': 'application/json'
             },

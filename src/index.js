@@ -5,11 +5,9 @@ import App from './App';
 import './App.css';
 
 if (process.env.NODE_ENV === 'production') {
-    console.log('Produção')
     disableReactDevTools();
 }
    
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <App />
