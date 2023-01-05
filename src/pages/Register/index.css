@@ -1,12 +1,3 @@
-.text-discord {
-    background-color: #f3ec78;
-    background-image: radial-gradient(circle, rgb(199 142 52) 50%, rgb(171 119 78) 80%);
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-text-fill-color: transparent;
-}
-
 .alistar {
     background-color: #f3ec78;
     background-image: radial-gradient(circle, rgb(199 142 52) 50%, rgb(171 119 78) 80%);

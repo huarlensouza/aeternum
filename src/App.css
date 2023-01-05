@@ -6,4 +6,5 @@ body {
   background-image: URL('../src/assets/background.png');
   background-repeat: no-repeat;
   background-position: top;
+  background-color: #0f1417 !important;
 }

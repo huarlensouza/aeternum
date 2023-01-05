@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom'
 import api from '../../api';
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { FaDiscord } from 'react-icons/fa'
+import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,9 +13,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FaDiscord } from 'react-icons/fa'
-import { styled } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -24,11 +24,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Logo from '../../component/Logo';
 import Rule from '../../component/Rule';
 import Patron from '../../component/Patron';
+import Discord from '../../component/Discord';
 
 import './index.css'
 
@@ -43,6 +43,9 @@ const DiscordButton = styled(Button)(({ theme }) => ({
     '&:hover': {
       backgroundColor: '#161516',
     },
+    '&:span': {
+        color:'red'
+    }
 }));
 
 const Register = () => {
@@ -138,6 +141,8 @@ const Register = () => {
 
     const [rule, setRule] = React.useState(false)
 
+    const [verified, setVerified] = React.useState(false);
+
     const week = [
         'Domingo',
         'Segunda-feira',
@@ -167,11 +172,16 @@ const Register = () => {
         (async() => {
             if(searchParams.get('code')) {
                 const response = await api.AuthDiscord(searchParams.get('code'));
-                if(response.data.auth){
+                if(response.data.auth && response.data.discord.verified) {
                     setUser(response.data);
                     setChampionship(response.data.championship);
                     setEnrollment(response.data.enrollment);
                     setAuth(true);
+                }
+
+                if(response.data.auth && !response.data.discord?.verified){
+                    console.log('não existe')
+                    setVerified(true)
                 };
             } else {
                 setAuth(false);
@@ -206,9 +216,7 @@ const Register = () => {
         setDays(typeof value == 'string' ? value.split(',') : value,);
     };
 
-    const handleCheck = (event) => {
-        setChecked(event.target.checked);
-    };
+    const handleCheck = (event) => setChecked(event.target.checked);
 
     const handleSave = async() => {
         const data = {
@@ -219,12 +227,13 @@ const Register = () => {
             weapon_secondary: secondary,
             days: days,
             hour: hour,
-            access_token: user.access_token
+            access_token: user.access_token,
+            avatar: user.discord.avatar
         };
 
         if(nickname === '') {
-            setNicknameError(true)
-            setNicknameErrorMsg('O campo é obrigatório')
+            setNicknameError(true);
+            setNicknameErrorMsg('O campo é obrigatório');
         };
 
         if(nickname.length > 20) {
@@ -233,45 +242,42 @@ const Register = () => {
         };
 
         if(nickname.length < 5 && nickname !== '') {
-            setNicknameError(true)
-            setNicknameErrorMsg('Limite minímo de 5 caracteres')
+            setNicknameError(true);
+            setNicknameErrorMsg('Limite minímo de 5 caracteres');
         };
     
         if(primary === '') {
-            setPrimaryError(true)
+            setPrimaryError(true);
         };
 
         if(secondary === '') {
-            setSecondaryError(true)
+            setSecondaryError(true);
         };
 
-        if(days === '') {
-            setDaysError(true)
+        if(days.length === 0) {
+            setDaysError(true);
         };
 
         if(hour === '') {
-            setHourError(true)
+            setHourError(true);
         };
 
-        if(primary !== '' && secondary !== '' && days !== '' && hour !== '' && nickname !== '' && nickname.length > 5 && nickname.length < 20) {
-           const response = await api.setUser(data);
-           console.log(response)
+        if(checked && primary !== '' && secondary !== '' && days.length > 0 && hour !== '' && nickname !== '' && nickname.length > 5 && nickname.length < 20) {
+            const response = await api.setUser(data);
             if(response.status === 400) {
                 setRegisterError(response.data.errors);
                 setRegisterErrorModal(true);
             };
 
             if(response.status === 200) {
-                if(response.data.register) {
+                if(response.data.enrollment) {
                     setComplete(true);
                 };
             };
         };
     };
 
-    const handleCloseModalRegisterErro = () => {
-        setRegisterErrorModal(false);
-    };
+    const handleCloseModalRegisterErro = () => setRegisterErrorModal(false);
 
     const handleNickname = (event) => {
         setNickname(event.target.value);
@@ -279,17 +285,11 @@ const Register = () => {
         setNicknameErrorMsg('');
     };
 
-    const handleTwitch = () => {
-        window.open('https://www.twitch.tv/sinehtv')
-    };
+    const handleRule = () => setRule(true);
 
-    const handleRule = () => {
-        setRule(true)
-    }
+    const handleCloseRule = () => setRule(false);
 
-    const handleCloseRule = () => {
-        setRule(false)
-    }
+    const handleCloseVerified = () => setVerified(false);
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -323,7 +323,16 @@ const Register = () => {
                                     <Box sx={{display: auth ? 'none' : 'flex', mt: 3, width:'100%', justifyContent:'center'}}>
                                         <Box sx={{mt:10, display:'flex', justifyContent:'center'}}>
                                             <DiscordButton variant="contained" onClick={handleGetAuthDiscord} startIcon={<FaDiscord style={{color:'white'}}/>}>
-                                                <div className={"text-discord"}>CONECTAR COM O DISCORD</div>
+                                                <div 
+                                                    style={{
+                                                        backgroundColor: '#f3ec78',
+                                                        backgroundImage: 'radial-gradient(circle, rgb(199 142 52) 50%, rgb(171 119 78) 80%)',
+                                                        WebkitBackgroundClip: 'text',
+                                                        MozBackgroundClip: 'text',
+                                                        WebkitTextFillColor: 'transparent',
+                                                    
+                                                    }}
+                                                >CONECTAR COM O DISCORD</div>
                                             </DiscordButton>
                                         </Box>
                                     </Box>
@@ -363,19 +372,18 @@ const Register = () => {
                                                 </Box>
                                             :
                                                 <>
-                                                    <Box sx={{mt: {lg:8, md:8, sm:8, xs:5}, display: auth && !complete ? 'grid' : 'none', width:'100%'}}>
-                                                        <Box >
+                                                    <Box sx={{mt: {lg:6, md:6, sm:6, xs:4}, display: auth && !complete ? 'grid' : 'none', width:'100%'}}>
+                                                        <Box>
                                                             <Box sx={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'center'}}>
                                                                 <Avatar
-                                                                    alt="Remy Sharp"
-                                                                    src={`https://cdn.discordapp.com/avatars/${user.user?.id}/${user.user?.avatar}`}
+                                                                    src={`https://cdn.discordapp.com/avatars/${user.discord?.id}/${user.discord?.avatar}`}
                                                                     sx={{ width: 40, height: 40 }}
                                                                 />
                                                                 <Typography color="white">{user.discord?.username}</Typography>
                                                                 <FaDiscord className={"icon-discord"} />
                                                             </Box>
                                                             
-                                                            <Box sx={{display:'flex', flexDirection:'column', gap:'5px', alignItems:'center'}}>
+                                                            <Box sx={{mt:-1, display:'flex', flexDirection:'column', gap:'5px', alignItems:'center'}}>
                                                                 <TextField
                                                                     fullWidth
                                                                     error={nicknameError}
@@ -487,9 +495,12 @@ const Register = () => {
                                                         </Box>
                                                     </Box>
                                                     {complete &&
-                                                        <Box sx={{mt:12}}>
+                                                        <Box sx={{mt:12, textAlign: 'center'}}>
                                                             <Box sx={{fontStyle: 'italic'}}>
                                                                 Cadastro efetuado com sucesso
+                                                            </Box>
+                                                            <Box sx={{fontStyle: 'italic'}}>
+                                                                Acompanhe sua inscrição pelo nosso Discord Oficial
                                                             </Box>
                                                             <Box sx={{mt:5}}>
                                                                 <Link to="/">
@@ -548,7 +559,10 @@ const Register = () => {
                     <Patron/>
                 </Box>
             </Box>
-            <Rule open={rule} handleCloseRule={handleCloseRule}/>
+            <div>
+                <Rule open={rule} handleCloseRule={handleCloseRule}/>
+                <Discord open={verified} handleCloseVerified={handleCloseVerified}/>
+            </div>
         </ThemeProvider>
     );
 };

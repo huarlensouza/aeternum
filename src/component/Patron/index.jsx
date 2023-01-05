@@ -8,6 +8,10 @@ import Twitch from '../../assets/patron/twitch.png';
 import Modern from '../../assets/patron/modern.jpg';
 
 export default ({justifyContent}) => {
+    const handleTwitch = () => {
+        window.open('https://www.twitch.tv/sinehtv');
+    }
+
     return (
         <Container maxWidth="sm" sx={{padding: 0, display:'flex', flexDirection:'column', gap:3, justifyContent:justifyContent}}>
             <Box sx={{display:'flex', flexDirection:'row', gap:2, justifyContent: 'center'}}>
@@ -37,7 +41,7 @@ export default ({justifyContent}) => {
                         gap:1,
                         cursor:'pointer'
                     }}
-                    // onClick={handleTwitch}
+                    onClick={handleTwitch}
                 >
                     <Typography sx={{fontSize:'10px', color:'#c9c9c9', textAlign:'center'}}>
                         Twitch.tv/sinehtv

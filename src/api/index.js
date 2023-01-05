@@ -6,14 +6,22 @@ const api = axios.create({
 
 export default {
     AuthDiscord: async(code) => {
-        return api.post('/auth/discord', {
+        var config = {
+            method: 'post',
+            url: `${process.env.REACT_APP_URL}/api/auth/discord`,
+            headers: { 
+                'Content-Type': 'application/json'
+            },
             data:{code:code}
-        })
-        .then(response => {
+        };
+        
+        return axios(config)
+        .then(function (response) {
             return response;
-        }).catch((err) =>{
-            return err.response;
         })
+        .catch(function (error) {
+            return error.response;
+        });
     },
     getAuthDiscord: async() => {
         return api.get('/auth/discord')

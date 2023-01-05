@@ -1,109 +1,91 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
+
 import Rule from '../Rule';
-import './index.css';
 
-export default ({data, handleRule}) => {
-    const [value, setValue] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
+const Accordion = styled((props) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+    borderRadius: 5,
+    '&:not(:last-child)': {
+        borderBottom: 0,
+    },
+    '&:before': {
+        display: 'none',
+    },
+    marginBottom:5,
+    backgroundColor:'rgba(0,0,0, .1)',
+}));
+
+const AccordionSummary = styled((props) => (
+    <MuiAccordionSummary
+        expandIcon={<ArrowForwardIosSharpIcon sx={{ color: '#ffddcc', fontSize: '0.9rem',}} />}
+        {...props}
+     />
+))(({ theme }) => ({
+    color:'#ffddcc',
+    borderRadius:5,
+    backgroundColor:'rgba(0,0,0, .1)',
+    '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+        transform: 'rotate(90deg)',
+    },
+    '& .MuiAccordionSummary-content': {
+        marginLeft: theme.spacing(1),
+    },
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    padding: theme.spacing(2),
+    color:'#efefef',
+    borderTop: '1px solid rgba(0, 0, 0, .125)',
+}));
+
+export default ({data}) => {
+    const [expanded, setExpanded] = React.useState('');
     const [rule, setRule] = React.useState(false)
-
-    useEffect(() => {
-        let accordion = [];
-        data.forEach((i) => {
-            accordion.push({
-                title:i.title,
-                content:i.content,
-                html:i.html,
-                rule:i.rule,
-                open:false
-            });
-        });
     
-        setValue({accordionItems: accordion});
-        setLoading(false);
-    },[]);
+    const handleRule = () => setRule(true);
 
-    const handleClick = (i) => {
-        const newAccordion = value.accordionItems.slice();
-        const index = newAccordion.indexOf(i);
+    const handleCloseRule = () => setRule(false);
 
-        newAccordion[index].open = !newAccordion[index].open;
-
-        setValue({accordionItems:newAccordion});
-    };
+    const handleChange = (panel) => (event, newExpanded) => setExpanded(newExpanded ? panel : false);
 
     return (
-        <>
-            {
-                !loading ?
-
-                    <div className="accordion">
-                        {
-                            
-                            value.accordionItems.map((i, x) => (
-                                <div key={x}>
-                                    <div 
-                                        className="title" 
-                                        onClick={() => handleClick(i)}
-                                    >
-                                        <div className="arrow-wrapper">
-                                            <i
-                                                className={
-                                                    i.open 
-                                                    ?
-                                                        "fa fa-angle-down fa-rotate-180" 
-                                                    :
-                                                        "fa fa-angle-down"
-                                                }
-                                            />
-                                        </div>
-                                        <span className="title-text">
-                                            {i.title}
-                                        </span>
-                                    </div>
-                                    <div
-                                        className={
-                                            i.open 
-                                            ?
-                                                "content content-open" 
-                                            :
-                                                "content"
-                                        }
-                                    >
-                                        <div
-                                            className={
-                                                i.open 
-                                                ?
-                                                    "content-text content-text-open" 
-                                                :
-                                                    "content-text"}
-                                        >
-                                            <div>
-                                                {i.content}
-                                            </div>
-                                                {
-                                                    i.html
-                                                    ?
-                                                        <div style={{marginTop:10, display:'flex', flexDirection:'column'}}>
-                                                            {i.html}
-                                                            <div style={{textDecoration:'underline', cursor:'pointer'}} title="Acessar o manual de regras e conduta" onClick={handleRule}>
-                                                                {i.rule}
-                                                            </div>
-                                                        </div>
-                                                    :
-                                                        null
-
-                                                }
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    :
-                    <h1/>
-                }
-                <Rule open={rule}/>
-        </>
+        <div style={{display:'flex', flexDirection: 'column'}}>
+            {      
+                data.map((item, index) => (
+                    <Accordion key={index} expanded={expanded === item.id} onChange={handleChange(item.id)}>
+                        <AccordionSummary>
+                            <Typography
+                                sx={{
+                                    fontSize:'0.8rem',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '1px',
+                                    textAlign: 'left',
+                                    lineHeight: 2,
+                                    fontWeight: 'lighter',
+                                }}
+                            >{item.title}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{fontSize:'0.75rem'}}>
+                            <Typography sx={{fontSize:'0.75rem'}}>{item.content}</Typography>
+                            {item.rule && 
+                                <Box>
+                                    <div style={{marginTop:10, display:'flex', flexDirection:'column'}}><span>Para mais informações, consulte o manual de regras:</span></div>
+                                    <a onClick={handleRule} style={{color:'#db4d53', textDecoration:'underline', cursor:'pointer'}}>Acessar manual de regras e conduta</a>
+                                </Box>
+                            }
+                        </AccordionDetails>
+                    </Accordion>
+                ))
+            }
+            <Rule open={rule} handleCloseRule={handleCloseRule}/>
+        </div>
     );
 };

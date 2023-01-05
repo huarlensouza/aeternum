@@ -1,20 +1,16 @@
 import React from 'react';
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-import { useAuth } from '../context/index';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 
 const Routers = () => {
-    const { signed } = useAuth();
-
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home/>}/>
+                <Route exact path="/" element={<Home/>}/>
                 <Route path="/cadastrar" element={<Register/>}/>
+                <Route path="*" element={<Navigate to="/" />}/>
             </Routes>
         </BrowserRouter>
     );
