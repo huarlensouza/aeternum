@@ -108,7 +108,7 @@ const Register = () => {
     const [secondary, setSecondary] = React.useState('')
     const [secondaryError, setSecondaryError] = React.useState(false);
 
-    const [days, setDays] = React.useState(user.user.days.split(', '));
+    const [days, setDays] = React.useState(user.user.days?.split(', ') || []);
     const [daysError, setDaysError] = React.useState(false);
     
     const [hour, setHour] = React.useState(user.user.hours);
