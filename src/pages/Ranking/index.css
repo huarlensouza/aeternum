@@ -1,0 +1,50 @@
+
+table {
+
+    border-collapse: collapse;
+  }
+  
+  thead th {
+    text-align: left;
+  }
+  
+  thead button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    padding: 0.5em;
+    margin-bottom: 1px;
+  }
+  
+  thead button.ascending::after {
+    content: '👇';
+    display: inline-block;
+    margin-left: 1em;
+  }
+  
+  thead button.descending::after {
+    content: '☝️';
+    display: inline-block;
+    margin-left: 1em;
+  }
+  
+  tbody td {
+    border-bottom: 1px solid #ffffff12;
+  }
+
+  tbody > tr:last-child > td {
+    border: none;
+  }
+  
+  tbody tr:hover {
+    background-color: #ffffff0f;
+  }
+  
+  tbody:before {
+    content:"@";
+    display:block;
+    line-height:10px;
+    text-indent:-99999px;
+}

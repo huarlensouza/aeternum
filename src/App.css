@@ -7,4 +7,21 @@ body {
   background-repeat: no-repeat;
   background-position: top;
   background-color: #0f1417 !important;
+  overflow: overlay;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: lightgray; 
 }
