@@ -1,6 +1,4 @@
 import React from 'react';
-import { Box } from '@mui/material';
-import logo from './aeternum.png'
 
 export default ({width, height}) => {
     return (
@@ -14,7 +12,6 @@ export default ({width, height}) => {
                 backgroundSize: 'cover'
             }} 
             alt="Logo"
-        >
-        </div>
-    )
-}
+        />
+    );
+};

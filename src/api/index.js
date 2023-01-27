@@ -86,6 +86,14 @@ export default {
             return err.response;
         })
     },
+    getChampionships: async() => {
+        return api.post('/championships')
+        .then(response => {
+            return response;
+        }).catch((err) =>{
+            return err.response;
+        })
+    },
     deleteEnrollment: async(id_discord, access_token) => {
         return api.delete('/enrollment',
             {
@@ -137,4 +145,22 @@ export default {
             return error.response;
         });
     },
+    getDuelsChampionship: async(id_championship) => {
+        var config = {
+            method: 'post',
+            url: `${process.env.REACT_APP_URL}/api/duels-championship`,
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            data : {id_championship:id_championship}
+        };
+        
+        return axios(config)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            return error.response;
+        });
+    }
 }

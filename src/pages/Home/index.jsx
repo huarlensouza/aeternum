@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -12,22 +11,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Container from '@mui/material/Container';
+import './index.css';
 
-import { useAuth } from '../../context/index'
+import { useAuth } from '../../context/index';
 
 import api from '../../api';
 
-import Accordion from '../../component/Accordion'
+import Accordion from '../../component/Accordion';
 import Discord from '../../component/Discord';
 import Weapons from '../../component/Weapons';
-
-import './index.css';
-
-const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-});
 
 const DiscordButton = styled(Button)(({ theme }) => ({
     backgroundImage: 'radial-gradient(circle, rgb(199 142 52) 50%, rgb(171 119 78) 80%)',
@@ -37,15 +29,6 @@ const DiscordButton = styled(Button)(({ theme }) => ({
     '&:span': {
         color:'red'
     }
-}));
-
-const EnrollmentButton = styled(Button)(({ theme }) => ({
-    backgroundColor: '#cb7906',
-    color:'white',
-    width:'120px',
-    '&:hover': {
-      backgroundColor: '#ce973b',
-    },
 }));
 
 const faq = [
@@ -74,7 +57,6 @@ const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quint
 export default () => {
     const navigate = useNavigate();
     const { signed, user, handleLogin, championship, handleReload } = useAuth();
-    console.log(championship)
     const [searchParams, setSearchParams] = useSearchParams(); 
     const [loading, setLoading] = React.useState(true);
     const [verified, setVerified] = React.useState(false);
@@ -120,7 +102,6 @@ export default () => {
         setModalCancel(false);
     };
 
-    console.log()
     return (
         <Box
             sx={{

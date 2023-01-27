@@ -5,20 +5,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import api from '../api';
 
-import Background from '../assets/background.png'
+import Background from '../assets/background.png';
 
 const AuthContext = createContext({});
 
 export function useAuth(){
     const context = useContext(AuthContext);
     return context;
-}
+};
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [championship, setChampionship] = React.useState([]);
-    const [reload, setReload] = React.useState(false)
+    const [reload, setReload] = React.useState(false);
     
     const Logout = () => {
         setUser(null);
@@ -31,8 +31,8 @@ export const AuthProvider = ({ children }) => {
         const response = await api.AuthDiscord(code);
 
         if(response.data.auth && response.data.verified) {
-            setUser(response.data)
-            localStorage.setItem('@aeternum', JSON.stringify(response.data))
+            setUser(response.data);
+            localStorage.setItem('@aeternum', JSON.stringify(response.data));
             return {auth:response.data.auth, verified:response.data.verified};
         };
         
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
         setChampionship(responseChampionship.data);
 
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
         (async() => {

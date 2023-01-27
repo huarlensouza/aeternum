@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -8,9 +9,7 @@ import Twitch from '../../assets/patron/twitch.png';
 import Modern from '../../assets/patron/modern.jpg';
 
 export default ({justifyContent}) => {
-    const handleTwitch = () => {
-        window.open('https://www.twitch.tv/sinehtv');
-    }
+    const handleTwitch = () => window.open('https://www.twitch.tv/sinehtv');
 
     return (
         <Container maxWidth="sm" sx={{padding: 0, display:'flex', flexDirection:'column', gap:3, justifyContent:justifyContent}}>
@@ -64,5 +63,5 @@ export default ({justifyContent}) => {
                 </Box>
             </Box>
         </Container>
-    )
-}
+    );
+};

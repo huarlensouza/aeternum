@@ -1,36 +1,22 @@
 import React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
 import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link, useNavigate } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles'
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import api from '../../api';
-import { useAuth } from '../../context/index';
 
-const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-});
+import api from '../../api';
+
+import { useAuth } from '../../context/index';
 
 const EnrollmentButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#cb7906',
@@ -40,18 +26,6 @@ const EnrollmentButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-const pages = [
-    {
-        name:"Página Inicial",
-        link:"/"
-    },
-    {
-        name:"Classificação",
-        link:"/classificacao"
-    }
-];
-
-
 export default () => {
     const { signed, user, Logout, championship } = useAuth();
     const navigate = useNavigate();
@@ -59,21 +33,13 @@ export default () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
   
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+    const handleCloseNavMenu = () => setAnchorElNav(null);
 
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
+    const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const handleCloseUserMenu = () => setAnchorElUser(null);
 
     const handleGetAuthDiscord = async() => {
         const response = await api.getAuthDiscord();
@@ -86,10 +52,9 @@ export default () => {
     };
 
     const handleLogout = () => {
-        console.log('sair')
         Logout();
         setAnchorElUser(null);
-    }
+    };
 
     return (
         <AppBar position="static" sx={{background:'transparent !important', boxShadow: 'none'}}>
@@ -128,11 +93,20 @@ export default () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                        {pages.map((page) => (
-                            <MenuItem key={page.name} onClick={() => handleNavigate(page.link)}>
-                            <Typography textAlign="center">{page.name}</Typography>
+                            <MenuItem onClick={() => handleNavigate('/')}>
+                                <Typography textAlign="center">Página Inicial</Typography>
                             </MenuItem>
-                        ))}
+                            <MenuItem onClick={() => handleNavigate('/classificacao')}>
+                                <Typography textAlign="center">Classificação</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={() => handleNavigate('/campeonatos')}>
+                                <Typography textAlign="center">Campeonatos</Typography>
+                            </MenuItem>
+                            {signed && !user.enrollment && championship.register == 1 &&
+                                <MenuItem onClick={() => handleNavigate('/cadastrar')}>
+                                    <Typography textAlign="center">Cadastrar</Typography>
+                                </MenuItem>
+                            }
                         </Menu>
                     </Box>
 
@@ -141,19 +115,20 @@ export default () => {
                     </Box>
 
                     <Box sx={{flexGrow: 1, display: {lg:'flex', md:'flex', sm:'flex', xs:'none'} }}>
-                   
                             <Button onClick={() => handleNavigate('/')} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 Página Inicial
                             </Button>
                             <Button onClick={() => handleNavigate('/classificacao')} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 Classificação
                             </Button>
+                            <Button onClick={() => handleNavigate('/campeonatos')} sx={{ my: 2, color: 'white', display: 'block' }}>
+                                Campeonatos
+                            </Button>
                             {signed && !user.enrollment && championship.register == 1 &&
                                 <Button onClick={() => handleNavigate('/cadastrar')} sx={{ my: 2, color: 'white', display: 'block' }}>
                                     Cadastrar
                                 </Button>
                             }
-               
                     </Box>
                     
                     {signed
@@ -195,4 +170,4 @@ export default () => {
             </Container>
         </AppBar>
     )
-}
+};

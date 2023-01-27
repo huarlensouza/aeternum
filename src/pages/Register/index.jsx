@@ -1,13 +1,7 @@
 import React, { useEffect } from 'react';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom'
-import api from '../../api';
+import { useNavigate } from 'react-router-dom'
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FaDiscord } from 'react-icons/fa'
-import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
@@ -23,16 +17,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CircularProgress from '@mui/material/CircularProgress';
+import './index.css'
 
-import Logo from '../../component/Logo';
-import Rule from '../../component/Rule';
-import Patron from '../../component/Patron';
-import Discord from '../../component/Discord';
+import api from '../../api';
 
 import { useAuth } from '../../context/index';
 
-import './index.css'
+import Rule from '../../component/Rule';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -105,7 +96,7 @@ const Register = () => {
         'Manopla de Gelo',
         'Manopla Imaterial'
     ]);
-    const [secondary, setSecondary] = React.useState('')
+    const [secondary, setSecondary] = React.useState('');
     const [secondaryError, setSecondaryError] = React.useState(false);
 
     const [days, setDays] = React.useState(user.user.days?.split(', ') || []);
@@ -119,7 +110,7 @@ const Register = () => {
     
     const [checked, setChecked] = React.useState(false);
 
-    const [rule, setRule] = React.useState(false)
+    const [rule, setRule] = React.useState(false);
 
     const week = [
         'Domingo',

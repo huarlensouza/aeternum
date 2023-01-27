@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import { styled } from '@mui/material/styles'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -9,13 +8,13 @@ import Box from '@mui/material/Box';
 
 import Register from '../pages/Register';
 import Ranking from '../pages/Ranking';
-import Bracket from '../pages/Bracket'
 import Home from '../pages/Home';
+import Championship from '../pages/Championship';
 
-import Nav from '../component/Nav'
+import Nav from '../component/Nav';
 import Patron from '../component/Patron';
 
-import { useAuth } from '../context'
+import { useAuth } from '../context';
 
 const darkTheme = createTheme({
     palette: {
@@ -43,7 +42,7 @@ const Routers = () => {
                             <Route exact path="/" element={<Home/>}/>
                             {signed && championship.register == 1 && !user.enrollment && <Route path="/cadastrar" element={<Register/>}/>}
                             <Route path="/classificacao" element={<Ranking/>}/>
-                            <Route path="/chaveamento" element={<Bracket/>}/>
+                            <Route path="/campeonatos" element={<Championship/>}/>
                             <Route path="*" element={<Navigate to="/" />}/>
                         </Routes>
                     </Container>

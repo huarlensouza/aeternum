@@ -1,29 +1,17 @@
 import React, { useEffect } from 'react';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FaDiscord } from 'react-icons/fa'
-import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ListItemText from '@mui/material/ListItemText';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import api from '../../api';
+
 import { useAuth } from '../../context/index';
 
 export default ({handleCloseModalWeapon}) => {
@@ -119,7 +107,7 @@ export default ({handleCloseModalWeapon}) => {
             weapon_secondary:secondary,
             access_token: user.access_token,
             avatar:user.discord.avatar
-        }
+        };
 
         await api.updateEnrollment(data);
 
@@ -173,5 +161,5 @@ export default ({handleCloseModalWeapon}) => {
                 </Button>
             </DialogActions>
         </DialogContent>
-    )
-}
+    );
+};

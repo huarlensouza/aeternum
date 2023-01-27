@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,7 +16,7 @@ export default ({open, handleCloseRule}) => {
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
         >
-            <DialogTitle id="scroll-dialog-title">Regras e Conduta</DialogTitle>
+            <DialogTitle>Regras e Conduta</DialogTitle>
             <DialogContent dividers={true}>
             <DialogContentText component="div">
                 <>
@@ -144,8 +145,7 @@ export default ({open, handleCloseRule}) => {
                                 </span>
                             </span>
                             Todos os competidores devem OBRIGATORIAMENTE fazer parte do
-                            Discord Oficial do Evento (
-                            <a href="https://discord.gg/bkb5k9h2U3">https://discord.gg/bkb5k9h2U3</a>)
+                            Discord Oficial do Evento
                         </p>
 
                         <br/>
@@ -493,8 +493,7 @@ export default ({open, handleCloseRule}) => {
                                     </span>
                                 </span>
                             </span>
-                            Todas as inscrições são feitas através do site{" "}
-                            <a href="https://arenaaeternum.com.br/cadastrar">https://arenaaeternum.com.br/cadastrar</a>
+                            Todas as inscrições são feitas através do site.
                         </p>
                         <p
                             className="MsoListParagraphCxSpMiddle"
@@ -1284,7 +1283,6 @@ export default ({open, handleCloseRule}) => {
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-                {/* <Button onClick={handleClose}>Cancel</Button> */}
                 <Button onClick={handleCloseRule} variant="text">FECHAR</Button>
             </DialogActions>
         </Dialog>

@@ -1,15 +1,16 @@
 import React from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Avatar } from '@mui/material';
 import { Box } from '@mui/system';
 
-import discord_first from '../../assets/discord1.png'
-import discord_second from '../../assets/discord2.png'
-import { Avatar } from '@mui/material';
+import discord_first from '../../assets/discord1.png';
+import discord_second from '../../assets/discord2.png';
 
 export default ({open, handleCloseVerified}) => {
     const handleDiscord = () => {

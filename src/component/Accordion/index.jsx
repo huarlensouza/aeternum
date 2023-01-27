@@ -48,7 +48,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 export default ({data}) => {
     const [expanded, setExpanded] = React.useState('');
-    const [rule, setRule] = React.useState(false)
+    const [rule, setRule] = React.useState(false);
     
     const handleRule = () => setRule(true);
 
