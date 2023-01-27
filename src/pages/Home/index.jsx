@@ -316,15 +316,15 @@ export default () => {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">
+                    <DialogTitle sx={{backgroundColor:'#101820bd'}}>
                         Cancelar inscrição do Campeonato
                     </DialogTitle>
-                    <DialogContent>
+                    <DialogContent sx={{backgroundColor:'#101820bd'}}>
                         <DialogContentText id="alert-dialog-description">
                             Você será removido da lista de inscritos do campeonato atual, e não será sorteado para a competiação, aceitar remover sua inscrição?
                         </DialogContentText>
                     </DialogContent>
-                    <DialogActions>
+                    <DialogActions sx={{backgroundColor:'#101820bd'}}>
                         <Button onClick={handleCloseModalCancel}>CANCELAR</Button>
                         <Button onClick={handleCancel} autoFocus>
                             ACEITO
@@ -339,7 +339,7 @@ export default () => {
                     fullWidth={true}
                     maxWidth={'sm'}
                 >
-                    <DialogTitle sx={{textAlign:'center'}}>
+                    <DialogTitle sx={{backgroundColor:'#101820bd', textAlign:'center'}}>
                         Equipamentos
                         <Typography sx={{fontSize:{lg:'16px', md:'16px', sm:'16px', xs:'12px'}}}>Só poderá alterar os equipamentos até 30 minutos antes do evento, ou caso a organização decida encerrar antes ou posterior o prazo.</Typography>
                     </DialogTitle>

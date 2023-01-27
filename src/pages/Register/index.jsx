@@ -13,10 +13,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import './index.css'
 
 import api from '../../api';
@@ -99,6 +99,9 @@ const Register = () => {
     const [secondary, setSecondary] = React.useState('');
     const [secondaryError, setSecondaryError] = React.useState(false);
 
+    const [restrictedWeapon, setRestrictedWeapon] = React.useState([]);
+    const [modalRestrictedWeapon, setModalRestrictedWeapon] = React.useState(false);
+
     const [days, setDays] = React.useState(user.user.days?.split(', ') || []);
     const [daysError, setDaysError] = React.useState(false);
     
@@ -138,11 +141,27 @@ const Register = () => {
     }, [primary, secondary]);
 
     const handlePrimary = (event) => {
+        if(event.target.value == 'Espada e Escudo') {
+            setRestrictedWeapon({
+                weapon:'Espada e Escudo',
+                message:'No momento não estamos aceitando jogadores com Escudo Torre, peço que certifique seus equipamentos antes de realizar inscrição por favor!'
+            });
+            setModalRestrictedWeapon(true);
+        };
+
         setPrimaryError(false);
         setPrimary(event.target.value);
     };
 
     const handleSecondary = (event) => {
+        if(event.target.value == 'Espada e Escudo') {
+            setRestrictedWeapon({
+                weapon:'Espada e Escudo',
+                message:'No momento não estamos aceitando jogadores com Escudo Torre, peço que certifique seus equipamentos antes de realizar inscrição por favor!'
+            });
+            setModalRestrictedWeapon(true);
+        };
+
         setSecondaryError(false);
         setSecondary(event.target.value);
     };
@@ -231,10 +250,12 @@ const Register = () => {
 
     const handleCloseRule = () => setRule(false);
 
+    const handleCloseModalRestrictedWeapon = () => setModalRestrictedWeapon(false);
+
     return (
         <Box
             sx={{
-                marginTop: 6,
+                marginTop: 10,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -384,6 +405,22 @@ const Register = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseModalRegisterErro}>Fechar</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={modalRestrictedWeapon}
+                onClose={handleCloseModalRestrictedWeapon}
+            >
+                <DialogTitle sx={{backgroundColor:'#101820bd'}}>
+                    {restrictedWeapon.weapon}
+                </DialogTitle>
+                <DialogContent sx={{backgroundColor:'#101820bd'}}>
+                    <DialogContentText id="alert-dialog-description">
+                        {restrictedWeapon.message}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions sx={{backgroundColor:'#101820bd'}}>
+                    <Button onClick={handleCloseModalRestrictedWeapon}>FECHAR</Button>
                 </DialogActions>
             </Dialog>
             <Rule open={rule} handleCloseRule={handleCloseRule}/>

@@ -273,7 +273,6 @@ export default () => {
                     aria-describedby="scroll-dialog-description"
                     fullWidth={true}
                     maxWidth={'sm'}
-                
                 >
                     <DialogTitle sx={{backgroundColor:'#101820bd'}}>Histórico de Combate</DialogTitle>
                     <DialogContent dividers={true} sx={{backgroundColor:'#101820bd', pl:{lg:'10px', md:'10px', sm:'10px', xs:'2px'}, pr:{lg:'10px', md:'10px', sm:'10px', xs:'2px'}}}>
