@@ -162,5 +162,13 @@ export default {
         .catch(function (error) {
             return error.response;
         });
-    }
+    },
+    getLastDuelChampionship: async() => {
+        return api.post('/last-duel-championship')
+        .then(response => {
+            return response;
+        }).catch((err) =>{
+            return err.response;
+        })
+    },
 }

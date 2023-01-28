@@ -87,6 +87,7 @@ export default ({handleCloseModalWeapon}) => {
 
     const [restrictedWeapon, setRestrictedWeapon] = React.useState([]);
     const [modalRestrictedWeapon, setModalRestrictedWeapon] = React.useState(false);
+    
     useEffect(() => {
         setSelectFilterPrimary(selectPrimary.filter(x => x != secondary));
         setSelectFilterSecondary(selectSecondary.filter(x => x != primary));
