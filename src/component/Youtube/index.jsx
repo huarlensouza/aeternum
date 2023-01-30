@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
 const VideoIframe = (props) => {
-    const { videoId, autoPlay, title } = props;
+    const { videoId, autoPlay, videoIdSponser, title } = props;
 
-    const videoURL = `https://www.youtube.com/embed/${videoId.split('/')[3]}?modestbranding=1${autoPlay ? "?autoplay=1" : ""}`;
+    const videoURL = `https://www.youtube.com/embed/${videoIdSponser ? videoIdSponser : videoId.split('/')[3]}?modestbranding=1${autoPlay ? "?autoplay=1" : ""}`;
     const iframeRef = useRef(null);
     const defaultHeight = 495;
     const [videoHeight, setVideoHeight] = useState(iframeRef.current ? iframeRef.current.offsetWidth * 0.5625 : defaultHeight);

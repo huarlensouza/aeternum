@@ -180,8 +180,6 @@ export default () => {
         setModalLastDuelChampionship(false);
     };
 
-    console.log(lastDuelChampionship)
-
     return (
         <Box
             sx={{

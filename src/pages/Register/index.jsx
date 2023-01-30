@@ -17,13 +17,17 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import CloseIcon from '@mui/icons-material/Close';
 import './index.css'
 
 import api from '../../api';
 
 import { useAuth } from '../../context/index';
 
+import YoutubeIframe from '../../component/Youtube';
 import Rule from '../../component/Rule';
+import TextNinjabet from '../../assets/patron/ninjabet-text.png'
+
 
 const Register = () => {
     const navigate = useNavigate();
@@ -101,6 +105,11 @@ const Register = () => {
 
     const [restrictedWeapon, setRestrictedWeapon] = React.useState([]);
     const [modalRestrictedWeapon, setModalRestrictedWeapon] = React.useState(false);
+
+    const [modalNinjabet, setModalNinjabet] = React.useState(false);
+
+    const [modalEnrollment, setModalEnrollment] = React.useState(false);
+    const [enrollment, setEnrollment] = React.useState([])
 
     const [days, setDays] = React.useState(user.user.days?.split(', ') || []);
     const [daysError, setDaysError] = React.useState(false);
@@ -232,8 +241,12 @@ const Register = () => {
             };
 
             if(response.status === 200) {
-                handleReload();
-                navigate('/');
+                if(response.data.enrollment) {
+                    setModalNinjabet(true);
+                } else {
+                    setEnrollment(response.data.message)
+                    setModalEnrollment(true);
+                }
             };
         };
     };
@@ -251,6 +264,17 @@ const Register = () => {
     const handleCloseRule = () => setRule(false);
 
     const handleCloseModalRestrictedWeapon = () => setModalRestrictedWeapon(false);
+    const handleNinjabet = () => window.open('https://www.n1nja.bet/');
+
+    const handleCloseModalNinjabet = () => {
+        handleReload();
+        navigate('/');
+    };
+
+    const handleCloseModalEnrollment = () => {
+        handleReload();
+        navigate('/');
+    };
 
     return (
         <Box
@@ -379,10 +403,8 @@ const Register = () => {
                 open={registerErrorModal}
                 onClose={handleCloseModalRegisterErro}
                 scroll={'body'}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
             >
-                <DialogTitle id="scroll-dialog-title">
+                <DialogTitle>
                     <Box sx={{textAlign:'center'}}>Falha em efetuar registro</Box>
                     <Box sx={{fontSize:'12px', textAlign:'center', fontWeight:'300'}}>Verifique os campos abaixo e tente novamente</Box>
                 </DialogTitle>
@@ -415,7 +437,7 @@ const Register = () => {
                     {restrictedWeapon.weapon}
                 </DialogTitle>
                 <DialogContent sx={{backgroundColor:'#101820bd'}}>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText>
                         {restrictedWeapon.message}
                     </DialogContentText>
                 </DialogContent>
@@ -423,9 +445,49 @@ const Register = () => {
                     <Button onClick={handleCloseModalRestrictedWeapon}>FECHAR</Button>
                 </DialogActions>
             </Dialog>
+            <Dialog
+                open={modalNinjabet}
+                fullWidth
+                maxWidth={'sm'}
+                sx={{
+                    boxShadow:' rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                }}
+            >
+                <Box sx={{display:'flex', flexDirection:'column', backgroundColor:'#101820bd'}}>
+                    <Box padding={1} sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+                        <img onClick={handleNinjabet} src={TextNinjabet} style={{width:120, cursor:'pointer'}} alt="" />
+                        
+                        <CloseIcon onClick={handleCloseModalNinjabet} sx={{mr:1, color:'#c086f5', cursor:'pointer'}}/>
+                    </Box>
+                    <Box padding={1} sx={{textTransform:'uppercase', mb:1}}>
+                        <Typography sx={{fontSize:'13.7px', color:'#dbb570'}}>Cadastro efetuado com sucesso!</Typography>
+                        <Typography sx={{fontSize:'13.7px', mb:1}}>Confira o nosso parceiro oficial da Arena Aeternum</Typography>
+                        <Typography sx={{fontSize:'13.7px'}}>A partir de agora todas as apostas esportivas que você fizer, você vai ganhar!</Typography>
+                        <Typography sx={{fontSize:'13.7px'}}>Quer saber como? <span style={{color:'#c086f5'}}>Assista o nosso vídeo</span></Typography>
+                    </Box>
+                    <YoutubeIframe videoIdSponser={'EaGmGjM_MZg'}/>
+                </Box>
+            </Dialog>
+            <Dialog
+                open={modalEnrollment}
+                onClose={handleCloseModalEnrollment}
+                fullWidth
+                maxWidth={'xs'}
+            >
+                <DialogTitle sx={{backgroundColor:'#101820bd'}}>
+                    Aviso
+                </DialogTitle>
+                <DialogContent sx={{backgroundColor:'#101820bd'}}>
+                    <DialogContentText>
+                        {enrollment}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions sx={{backgroundColor:'#101820bd'}}>
+                    <Button onClick={handleCloseModalEnrollment}>FECHAR</Button>
+                </DialogActions>
+            </Dialog>
             <Rule open={rule} handleCloseRule={handleCloseRule}/>
         </Box>
-
     );
 };
 
