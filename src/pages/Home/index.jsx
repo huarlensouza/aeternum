@@ -74,7 +74,7 @@ const faq = [
     {
         id:4,
         title: "O que é NÃO permitido no Campeonato?", 
-        content: `O bastão vital está desabilitado no momento, utilizar armas que não foram cadastras, ultrapassar limite da área estabelecida pela organização, manter-se em grupo durante o duelo e qualquer antijogo que impossibilita um confronto justo entre os competidores.`,
+        content: `O bastão vital e Escudo Torre estão desabilitados no momento, utilizar armas que não foram cadastras, ultrapassar limite da área estabelecida pela organização, manter-se em grupo durante o duelo e qualquer antijogo que impossibilita um confronto justo entre os competidores.`,
         rule: true
     },
 ];

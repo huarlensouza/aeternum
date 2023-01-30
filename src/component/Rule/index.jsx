@@ -205,7 +205,7 @@ export default ({open, handleCloseRule}) => {
                                     </span>
                                 </span>
                             </span>
-                            No momento o Bastão Vital e EscudoTorre estão desabilitados para Evento
+                            No momento o Bastão Vital e Escudo Torre estão desabilitados para Evento
                         </p>
                         <p
                             className="MsoListParagraphCxSpMiddle"
